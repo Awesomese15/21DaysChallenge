@@ -6,37 +6,7 @@ import java.util.Scanner;
 
 
 public class Solution {
-    static  List<String>numbers=new ArrayList<>();
-    public List<String> permute(String str, int l, int r)
-    {
-
-
-
-
-        if (l == r){
-
-
-            if(!numbers.contains(str)){
-                numbers.add(str);
-            }
-
-
-        }
-
-        else
-        {
-            for (int i = l; i <= r; i++)
-            {
-                str = swap(str,l,i);
-                permute(str, l+1, r);
-                str = swap(str,l,i);
-            }
-        }
-
-        return numbers;
-
-    }
-
+    static List<String>listOfNumbers=new ArrayList<>();
     private   String swap(String str, int i, int j)
     {
         char temp;
@@ -46,6 +16,37 @@ public class Solution {
         charArray[j] = temp;
         return String.valueOf(charArray);
     }
+
+
+public void  permute(String binaryString){
+    List<String> answer = new ArrayList<>();
+   permute(binaryString, new String());
+}
+
+public static List<String> retrunPermutedNumber(String number){
+    if(!listOfNumbers.contains(number)){
+        listOfNumbers.add(number);
+    }
+
+    return listOfNumbers;
+}
+
+public static void permute(String binaryString,String decisionSoFar){
+    String perm="";
+    if(binaryString.isEmpty()){
+        retrunPermutedNumber(decisionSoFar);
+
+    }
+
+    for (int i = 0; i < binaryString.length(); i++) {
+
+        String decisions = decisionSoFar+binaryString.charAt(i);
+        String newBinaryString=binaryString;
+        permute(newBinaryString.substring(0,i)+newBinaryString.substring(i+1,binaryString.length()), decisions);
+    }
+
+
+}
 
 
     public static void main(String[] args) {
@@ -62,17 +63,16 @@ public class Solution {
 
            String binaryString= Integer.toBinaryString(n);
 
-
-            numbers.clear();
-            List<String> listOfBits= solution.permute(binaryString,0,binaryString.length()-1);
+            listOfNumbers.clear();
+            solution.permute(binaryString);
             int output=0;
-            for(String bits : listOfBits){
+            for(String bits : listOfNumbers){
 
                 output=output+Integer.parseInt(bits,2);
 
 
             }
-            System.out.println(output);
+          System.out.println(output);
         }
     }
 }
